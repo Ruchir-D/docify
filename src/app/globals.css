@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-dark: #04342C;
+  --brand-teal: #1D9E75;
+  --brand-light: #E8F5F0;
+  --brand-muted: #6B9E8A;
+}
+
+/* ─── Base ─────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-gray-900;
+  }
+
+  ::selection {
+    background-color: rgba(29, 158, 117, 0.22);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.14);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.24);
+  }
+}
+
+/* ─── Upload page background ────────────────────────── */
+.bg-upload {
+  background-color: #04342C;
+  background-image:
+    radial-gradient(ellipse 80% 55% at 50% 38%, rgba(29, 158, 117, 0.18) 0%, transparent 65%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: auto, 28px 28px;
+}
+
+/* ─── Glow utilities ────────────────────────────────── */
+.glow-teal {
+  box-shadow:
+    0 0 24px rgba(29, 158, 117, 0.3),
+    0 0 64px rgba(29, 158, 117, 0.1);
+}
+
+.glow-teal-ring {
+  box-shadow: 0 0 0 4px rgba(29, 158, 117, 0.2);
+}
+
+/* ─── Drop zone animated border ────────────────────── */
+@keyframes border-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(29, 158, 117, 0); }
+  50%       { box-shadow: 0 0 0 6px rgba(29, 158, 117, 0.12); }
+}
+
+.dropzone-idle {
+  position: relative;
+  transition: all 0.2s ease;
+}
+.dropzone-idle:hover {
+  animation: pulse-ring 2.5s ease-in-out infinite;
+}
+
+/* ─── Step connector line ───────────────────────────── */
+.step-connector {
+  position: absolute;
+  left: 13px;
+  top: 28px;
+  bottom: -16px;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+}
+
+/* ─── TOC active indicator ──────────────────────────── */
+.toc-link-active {
+  position: relative;
+  color: #1D9E75;
+  font-weight: 500;
+}
+.toc-link-active::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  background: #1D9E75;
+  border-radius: 1px;
+}
+
+/* ─── Document typography overrides ────────────────── */
+.doc-prose h1,
+.doc-prose h2,
+.doc-prose h3,
+.doc-prose h4 {
+  font-family: var(--font-syne), sans-serif;
+  scroll-margin-top: 80px;
+}
+
+.doc-prose h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #111827;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.doc-prose h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-top: 2.5rem;
+}
+
+.doc-prose h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 2rem;
+}
+
+.doc-prose p {
+  color: #374151;
+  line-height: 1.8;
+}
+
+.doc-prose a {
+  color: #1D9E75;
+  text-decoration: none;
+}
+.doc-prose a:hover {
+  text-decoration: underline;
+}
+
+.doc-prose blockquote {
+  border-left: 3px solid #1D9E75;
+  background: #f9fafb;
+  padding: 1rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+  color: #4b5563;
+  font-style: normal;
+}
+
+.doc-prose code {
+  background: #f3f4f6;
+  color: #04342C;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: 'Menlo', 'Monaco', monospace;
+}
+
+.doc-prose pre {
+  background: #111827;
+  color: #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+}
+
+.doc-prose pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: 0.875em;
+}
+
+.doc-prose table {
+  width: 100%;
+  font-size: 0.9rem;
+  border-collapse: collapse;
+}
+
+.doc-prose th {
+  background: #f9fafb;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 2px solid #e5e7eb;
+  color: #111827;
+}
+
+.doc-prose td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+}
+
+.doc-prose tr:hover td {
+  background: #fafafa;
+}
+
+.doc-prose .table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin: 1.5rem 0;
+}
+
+.doc-prose img {
+  border-radius: 10px;
+  max-width: 100%;
+}
+
+/* ─── Animations ────────────────────────────────────── */
+@layer utilities {
+  .font-syne {
+    font-family: var(--font-syne), sans-serif;
+  }
+
+  .animate-in {
+    animation: slideUp 0.45s ease-out forwards;
+  }
+}
