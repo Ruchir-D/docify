@@ -5,11 +5,18 @@ import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ConvertingSteps } from '@/components/convert/ConvertingSteps'
+import type { TemplateChoice } from '@/types'
+
+const VALID_CHOICES: TemplateChoice[] = ['document', 'resume', 'deck', 'interactive', 'auto']
 
 function ConvertContent() {
   const params = useSearchParams()
   const uploadId = params.get('uploadId') || ''
   const filename = params.get('filename') || ''
+  const templateParam = params.get('template') || 'auto'
+  const template: TemplateChoice = VALID_CHOICES.includes(templateParam as TemplateChoice)
+    ? (templateParam as TemplateChoice)
+    : 'auto'
 
   if (!uploadId) {
     return (
@@ -25,7 +32,7 @@ function ConvertContent() {
     )
   }
 
-  return <ConvertingSteps uploadId={uploadId} filename={filename} />
+  return <ConvertingSteps uploadId={uploadId} filename={filename} template={template} />
 }
 
 export default function ConvertPage() {

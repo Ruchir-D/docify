@@ -2,15 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { convertPdfToHtml } from '@/lib/claude'
 import { generateUniqueSlug } from '@/lib/slugify'
+import type { TemplateChoice } from '@/types'
 
 export const maxDuration = 60
 
+const VALID_CHOICES: TemplateChoice[] = ['document', 'resume', 'deck', 'interactive', 'auto']
+
 export async function POST(req: NextRequest) {
   try {
-    const { uploadId } = await req.json()
+    const { uploadId, template } = await req.json()
     if (!uploadId) {
       return NextResponse.json({ error: 'uploadId is required' }, { status: 400 })
     }
+    const templateChoice: TemplateChoice = VALID_CHOICES.includes(template) ? template : 'auto'
 
     const supabase = getSupabaseAdmin()
 
@@ -31,7 +35,7 @@ export async function POST(req: NextRequest) {
     if (storageError || !pdfData) throw storageError
 
     const pdfBuffer = Buffer.from(await pdfData.arrayBuffer())
-    const { title, pageCount, html } = await convertPdfToHtml(pdfBuffer)
+    const { title, pageCount, html, template: resolvedTemplate } = await convertPdfToHtml(pdfBuffer, templateChoice)
 
     const slug = generateUniqueSlug(title)
 
@@ -43,6 +47,7 @@ export async function POST(req: NextRequest) {
         html_content: html,
         page_count: pageCount,
         view_count: 0,
+        template: resolvedTemplate,
       })
       .select('id, slug')
       .single()

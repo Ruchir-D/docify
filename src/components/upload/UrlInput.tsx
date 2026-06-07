@@ -2,8 +2,13 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import type { TemplateChoice } from '@/types'
 
-export function UrlInput() {
+interface UrlInputProps {
+  template: TemplateChoice
+}
+
+export function UrlInput({ template }: UrlInputProps) {
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -23,7 +28,7 @@ export function UrlInput() {
       const res = await fetch('/api/upload', { method: 'POST', body: formData })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Failed to fetch PDF')
-      router.push(`/convert?uploadId=${json.uploadId}&filename=document.pdf`)
+      router.push(`/convert?uploadId=${json.uploadId}&filename=document.pdf&template=${template}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed. Try again.')
       setLoading(false)

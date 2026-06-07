@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
+import type { TemplateChoice } from '@/types'
 
 type State = 'idle' | 'drag-over' | 'selected' | 'uploading'
 
@@ -11,7 +12,11 @@ function formatBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
-export function DropZone() {
+interface DropZoneProps {
+  template: TemplateChoice
+}
+
+export function DropZone({ template }: DropZoneProps) {
   const [state, setState] = useState<State>('idle')
   const [file, setFile] = useState<File | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -52,7 +57,7 @@ export function DropZone() {
       const res = await fetch('/api/upload', { method: 'POST', body: formData })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Upload failed')
-      router.push(`/convert?uploadId=${json.uploadId}&filename=${encodeURIComponent(file.name)}`)
+      router.push(`/convert?uploadId=${json.uploadId}&filename=${encodeURIComponent(file.name)}&template=${template}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Upload failed. Try again.')
       setState('selected')

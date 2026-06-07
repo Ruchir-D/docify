@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import { DropZone } from '@/components/upload/DropZone'
-import { UrlInput } from '@/components/upload/UrlInput'
+import { UploadCard } from '@/components/upload/UploadCard'
 
 export default function HomePage() {
   return (
@@ -45,23 +44,10 @@ export default function HomePage() {
 
         {/* Upload card */}
         <div
-          className="mt-10 w-full max-w-lg animate-slide-up"
+          className="mt-10 flex w-full justify-center animate-slide-up"
           style={{ animationDelay: '200ms' }}
         >
-          <div className="rounded-2xl border border-white/8 bg-white/4 p-1.5 shadow-glass backdrop-blur-sm">
-            <DropZone />
-
-            {/* Divider */}
-            <div className="my-3 flex items-center gap-3 px-4">
-              <div className="h-px flex-1 bg-white/8" />
-              <span className="text-[11px] uppercase tracking-widest text-white/25">or paste a URL</span>
-              <div className="h-px flex-1 bg-white/8" />
-            </div>
-
-            <div className="px-1.5 pb-1.5">
-              <UrlInput />
-            </div>
-          </div>
+          <UploadCard />
         </div>
 
         {/* Features */}

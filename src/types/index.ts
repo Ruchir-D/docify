@@ -1,3 +1,6 @@
+export type TemplateId = 'document' | 'resume' | 'deck' | 'interactive'
+export type TemplateChoice = TemplateId | 'auto'
+
 export interface Document {
   id: string
   slug: string
@@ -6,6 +9,7 @@ export interface Document {
   page_count: number
   created_at: string
   view_count: number
+  template: TemplateId
 }
 
 export interface Upload {

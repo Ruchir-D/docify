@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ProgressRing } from '@/components/ui/ProgressRing'
+import type { TemplateChoice } from '@/types'
 
 const STEPS = [
   {
@@ -27,9 +28,10 @@ type StepStatus = 'pending' | 'active' | 'done'
 interface ConvertingStepsProps {
   uploadId: string
   filename: string
+  template: TemplateChoice
 }
 
-export function ConvertingSteps({ uploadId, filename }: ConvertingStepsProps) {
+export function ConvertingSteps({ uploadId, filename, template }: ConvertingStepsProps) {
   const [steps, setSteps] = useState<Record<string, StepStatus>>({
     read: 'active',
     ai: 'pending',
@@ -57,7 +59,7 @@ export function ConvertingSteps({ uploadId, filename }: ConvertingStepsProps) {
         const res = await fetch('/api/convert', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ uploadId }),
+          body: JSON.stringify({ uploadId, template }),
         })
 
         if (intervalRef) clearInterval(intervalRef)
@@ -89,7 +91,7 @@ export function ConvertingSteps({ uploadId, filename }: ConvertingStepsProps) {
       cancelled = true
       if (intervalRef) clearInterval(intervalRef)
     }
-  }, [uploadId, router])
+  }, [uploadId, template, router])
 
   if (error) {
     return (
